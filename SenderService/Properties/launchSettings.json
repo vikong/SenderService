@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "SenderService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
