@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NTB.SenderService.Data;
+using Telegram.Bot;
 
 //dotnet publish -r win-x64 -c Release
 //sc create NTBSendService BinPath=[path].exe 9.9MB
@@ -53,13 +54,15 @@ namespace NTB.SenderService
 				});
 
 				// register DI
-				services.AddScoped<ISender, FileSender>();
+				//services.AddScoped<ISender, FileSender>();
+				services.AddScoped<ISender, TelegramSender>();
 				services.AddScoped<BroadcastService>();
 				services.AddHostedService<SenderWorker>();
 
 				// конфигурация
 				services.Configure<SenderServiceSettings>(hostContext.Configuration.GetSection(SenderServiceSettings.SectionName));
 				services.Configure<FileSenderSettings>(hostContext.Configuration.GetSection("FileSenderSettings"));
+				services.Configure<TelegramSenderSettings>(hostContext.Configuration.GetSection("TelegramSenderSettings"));
 			})
 			.UseWindowsService(options =>
 			{

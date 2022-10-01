@@ -45,10 +45,10 @@ namespace NTB.SenderService.Data.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     AttachesRef = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: false, defaultValueSql: "1"),
                     MessageId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getutcdate()"),
-                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getutcdate()")
+                    Created = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()"),
+                    Updated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {

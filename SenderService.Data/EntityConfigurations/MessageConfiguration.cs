@@ -13,6 +13,10 @@ namespace NTB.SenderService.Data.EntityConfigurations
 			builder.ToTable("Messages");
 
 			// fields
+			builder.Property(t => t.StatusId)
+				.IsRequired()
+				.HasDefaultValueSql("1");
+
 			builder.Property(t => t.Text)
 				.IsRequired();
 
@@ -21,11 +25,9 @@ namespace NTB.SenderService.Data.EntityConfigurations
 				.IsRequired(false);
 
 			builder.Property(e => e.Created)
-				.HasColumnType("datetime2")
 				.HasDefaultValueSql("getutcdate()");
 
 			builder.Property(e => e.Updated)
-				.HasColumnType("datetime2")
 				.HasDefaultValueSql("getutcdate()");
 
 			// indexes
