@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NTB.SenderService.Data;
-using Telegram.Bot;
 
 //dotnet publish -r win-x64 -c Release
 //sc create NTBSendService BinPath=[path].exe 9.9MB
@@ -19,9 +18,10 @@ namespace NTB.SenderService
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+			using IHost host = CreateHostBuilder(args).Build();
+			await host.RunAsync();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -57,13 +57,15 @@ namespace NTB.SenderService
 				//services.AddScoped<ISender, FileSender>();
 				services.AddScoped<ISender, TelegramSender>();
 				services.AddScoped<BroadcastService>();
-				services.AddHostedService<SenderWorker>();
 
 				// конфигурация
 				services.Configure<SenderServiceSettings>(hostContext.Configuration.GetSection(SenderServiceSettings.SectionName));
 				services.Configure<FileSenderSettings>(hostContext.Configuration.GetSection("FileSenderSettings"));
 				services.Configure<TelegramSenderSettings>(hostContext.Configuration.GetSection("TelegramSenderSettings"));
+
+				services.AddHostedService<SenderWorker>();
 			})
+			//.UseDefaultServiceProvider((context, options) =>{ options.ValidateOnBuild = true; } )
 			.UseWindowsService(options =>
 			{
 				options.ServiceName = "NTBSendService";

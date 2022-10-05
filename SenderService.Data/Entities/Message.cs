@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTB.SenderService.Data
 {
-	public class Message : BaseEntity
+	public partial class Message : BaseEntity
 	{
 		/// <summary>
 		/// Ключ типа сообщения
@@ -49,7 +50,16 @@ namespace NTB.SenderService.Data
 		/// </summary>
 		public String MessageId { get; set; }
 
+
+		protected List<MessageError> _messageErrors = new List<MessageError>();
+		
 		/// <summary>
+		/// Список ошибок, возникших при отправке сообщения
+		/// </summary>
+		public IReadOnlyCollection<MessageError> MessageErrors 
+			=> _messageErrors.AsReadOnly();
+
+		/// <summary>	
 		/// Время создания
 		/// </summary>
 		public DateTime Created { get; protected set; }

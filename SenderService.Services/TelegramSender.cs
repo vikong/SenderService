@@ -55,10 +55,10 @@ namespace NTB.SenderService
 			Int64 chatId = await GetChatId(message);
 			if (chatId==0)
 			{
-				message.StatusId = MessageStatusEnum.Error;
+				message.SetError(MessageErrorTypeEnum.Provider, $"Wrong recipient's ChatId");
 				return false;
 			}
-			bool result;
+
 			try
 			{
 				var chat = new TB.Types.ChatId(chatId);
@@ -70,15 +70,18 @@ namespace NTB.SenderService
 					new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, WriteIndented = true });
 				System.IO.File.AppendAllText(@"D:\temp\__Bot.txt", json + Environment.NewLine);
 #endif
-				result = true;
 			}
-			catch (Exception ex)
+			catch (TB.Exceptions.ApiRequestException ex)
 			{
-				message.StatusId = MessageStatusEnum.Error;
-				result = false;
+				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.ErrorCode}");
+			}
+			catch (TB.Exceptions.RequestException ex)
+			{
+				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.HttpStatusCode}");
 			}
 
-			return result;
+			return message.StatusId != MessageStatusEnum.Error;
+
 		}
 	}
 }

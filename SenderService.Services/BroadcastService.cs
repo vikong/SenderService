@@ -26,7 +26,9 @@ namespace NTB.SenderService
 			Message[] queuedMessages = await _dbContext.Messages
 				.Where(m => m.TypeId==sender.MessageType && m.StatusId == MessageStatusEnum.Queued)
 				.ToArrayAsync();
-			if (queuedMessages.Length == 0)
+			var queuedMessages1 = _dbContext.Messages
+				.Where(m => m.TypeId == sender.MessageType && m.StatusId == MessageStatusEnum.Queued);
+			if (queuedMessages.Count() == 0)
 			{
 				return;
 			}
@@ -54,9 +56,9 @@ namespace NTB.SenderService
 				{
 					await sender.SendAsync(message);
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					message.StatusId = MessageStatusEnum.Error;
+					message.SetError(MessageErrorTypeEnum.Program, ex.Message);
 				}
 
 				// обновляем статус

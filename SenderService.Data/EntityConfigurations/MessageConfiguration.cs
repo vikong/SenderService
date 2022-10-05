@@ -24,6 +24,8 @@ namespace NTB.SenderService.Data.EntityConfigurations
 				.HasMaxLength(255)
 				.IsRequired(false);
 
+			builder.Ignore(t => t.LastError);
+
 			builder.Property(e => e.Created)
 				.HasDefaultValueSql("getutcdate()");
 

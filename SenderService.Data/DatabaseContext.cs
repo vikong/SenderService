@@ -9,6 +9,7 @@ namespace NTB.SenderService.Data
 		public DbSet<MessageStatus> MessageStatuses { get; set; }
 		public DbSet<MessageType> MessageTypes { get; set; }
 		public DbSet<Message> Messages { get; set; }
+		public DbSet<MessageError> MessageErrors { get; set; }
 
 		public DatabaseContext(DbContextOptions options)
 			:base(options)
