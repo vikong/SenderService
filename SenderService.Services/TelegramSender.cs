@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
+
+using NTB.BotService.TelegramBot;
 using NTB.SenderService.Data;
+
 using Telegram.Bot;
-using TB = Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Exceptions;
 
 namespace NTB.SenderService
 {
@@ -21,6 +26,7 @@ namespace NTB.SenderService
 		public MessageTypeEnum MessageType => MessageTypeEnum.Telegram;
 
 		private readonly ITelegramBotClient _botClient;
+		public ITelegramBotClient Bot => _botClient;
 
 		public TelegramSender(IOptions<TelegramSenderSettings> settings)
 		{
@@ -40,7 +46,7 @@ namespace NTB.SenderService
 			_botClient = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
 		}
 
-		private async Task<Int64> GetChatId(Message message)
+		private async Task<Int64> GetChatId(Data.Message message)
 		{
 			if (!Int64.TryParse(message.Recipient, out Int64 chatId))
 			{
@@ -50,7 +56,7 @@ namespace NTB.SenderService
 			return chatId;
 		}
 
-		public async Task<Boolean> SendAsync(Message message)
+		public async Task<Boolean> SendAsync(Data.Message message)
 		{
 			Int64 chatId = await GetChatId(message);
 			if (chatId==0)
@@ -61,26 +67,61 @@ namespace NTB.SenderService
 
 			try
 			{
-				var chat = new TB.Types.ChatId(chatId);
-				TB.Types.Message res = await _botClient.SendTextMessageAsync(chat, message.Text);
-				message.MessageId = $"{chatId}:{res.MessageId}";
+				ChatId chat = new ChatId(chatId);
+
+				Telegram.Bot.Types.Message result = 
+					await _botClient.SendAsync(chatId, ToTelegramMessage(message));
+				
+				message.MessageId = $"{chatId}:{result.MessageId}";
 				message.StatusId = MessageStatusEnum.Delivered;
-#if DEBUG
-				var json = System.Text.Json.JsonSerializer.Serialize(res, typeof(TB.Types.Message),
-					new System.Text.Json.JsonSerializerOptions { IgnoreNullValues = true, WriteIndented = true });
-				System.IO.File.AppendAllText(@"D:\temp\__Bot.txt", json + Environment.NewLine);
-#endif
 			}
-			catch (TB.Exceptions.ApiRequestException ex)
+			catch (ApiRequestException ex)
 			{
 				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.ErrorCode}");
 			}
-			catch (TB.Exceptions.RequestException ex)
+			catch (RequestException ex)
 			{
 				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.HttpStatusCode}");
 			}
 
 			return message.StatusId != MessageStatusEnum.Error;
+
+		}
+
+		/// <summary>
+		/// Конвертирует сообщение <see cref="Data.Message"/> в сообщение телеграм <see cref="TelegramMessage"/>
+		/// </summary>
+		/// <param name="message">Сообщение</param>
+		/// <returns>Сообщение телеграм</returns>
+		public static TelegramMessage ToTelegramMessage(Data.Message message)
+		{
+			string strInput = message.Text.Trim();
+			if (String.IsNullOrWhiteSpace(strInput))
+			{
+				return null;
+			}
+			
+			if (message.IsJson)
+			{
+				TelegramMessage result;
+				if (strInput.StartsWith("{") && strInput.EndsWith("}"))
+				{
+					try
+					{
+						result = JsonSerializer.Deserialize<TelegramMessage>(strInput);
+					}
+					catch (JsonException)
+					{
+						result = null;
+					}
+				}
+				else
+				{
+					result = null;
+				}
+				return result;
+			}
+			return new TelegramMessage(message.Text.Trim());
 
 		}
 	}

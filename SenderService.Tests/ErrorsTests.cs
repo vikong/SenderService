@@ -23,7 +23,6 @@ namespace NTB.SenderService.Tests
 			var messages = ctx.Messages;
 			var msg = new Message {
 				Recipient="TestSystem", 
-				Subject="Test Error", 
 				TypeId= MessageTypeEnum.Telegram 
 			};
 			messages.Add(msg);
@@ -47,7 +46,6 @@ namespace NTB.SenderService.Tests
 			var msg = new Message
 			{
 				Recipient = "TestSystem",
-				Subject = "Test Error",
 				TypeId = MessageTypeEnum.Telegram
 			};
 			messages.Add(msg);
@@ -73,7 +71,6 @@ namespace NTB.SenderService.Tests
 			var msg = new Message
 			{
 				Recipient = "TestSystem",
-				Subject = "Test Error",
 				TypeId = MessageTypeEnum.Telegram
 			};
 			var errorText = "this is test error";

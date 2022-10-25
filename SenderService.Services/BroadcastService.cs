@@ -26,8 +26,6 @@ namespace NTB.SenderService
 			Message[] queuedMessages = await _dbContext.Messages
 				.Where(m => m.TypeId==sender.MessageType && m.StatusId == MessageStatusEnum.Queued)
 				.ToArrayAsync();
-			var queuedMessages1 = _dbContext.Messages
-				.Where(m => m.TypeId == sender.MessageType && m.StatusId == MessageStatusEnum.Queued);
 			if (queuedMessages.Count() == 0)
 			{
 				return;

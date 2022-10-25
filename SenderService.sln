@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService", "SenderService\SenderService.csproj", "{8A6C2DAE-CD85-4A8A-8215-1D3220465326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService", "SenderService\SenderService.csproj", "{8A6C2DAE-CD85-4A8A-8215-1D3220465326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService.Services", "SenderService.Services\SenderService.Services.csproj", "{1EB2AFDD-D384-4B4D-89CB-F65AE5FE5A9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService.Services", "SenderService.Services\SenderService.Services.csproj", "{1EB2AFDD-D384-4B4D-89CB-F65AE5FE5A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService.Data", "SenderService.Data\SenderService.Data.csproj", "{ACA9ADC1-5528-4519-A1A0-D8D40EC317BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService.Data", "SenderService.Data\SenderService.Data.csproj", "{ACA9ADC1-5528-4519-A1A0-D8D40EC317BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService.Tests", "SenderService.Tests\SenderService.Tests.csproj", "{EA8892C8-03C5-407E-8A46-58B4B4492553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService.Tests", "SenderService.Tests\SenderService.Tests.csproj", "{EA8892C8-03C5-407E-8A46-58B4B4492553}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotService.TelegramBot", "..\BotService\BotService.TelegramBot\BotService.TelegramBot.csproj", "{F828AF03-AA2A-497D-A45D-46B01E68C781}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|x64.ActiveCfg = Release|x64
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|x64.Build.0 = Release|x64
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|x64.Build.0 = Debug|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|x64.ActiveCfg = Release|Any CPU
+		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

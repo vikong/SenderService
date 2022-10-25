@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NTB.SenderService.Data
 {
-	public partial class Message
+	public partial class Message // логика
 	{
 		/// <summary>
 		/// Последняя ошибка, возникшая при отправке сообщения

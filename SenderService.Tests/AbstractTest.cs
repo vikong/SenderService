@@ -30,11 +30,13 @@ namespace NTB.SenderService.Tests
                 {
                     config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 })
-                //.UseStartup<Startup>()
+                .ConfigureServices((hostContext, services)=> {
+                })
                 .Build();
 
             serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
+            //serviceCollection.AddSingleton<TelegramSender>();
             //serviceCollection.RegisterOwnLogic(host.Services.GetService<IConfiguration>());
             //serviceCollection.AddHttpContextAccessor();
             serviceCollection.AddDbContext<DatabaseContext>(options =>
@@ -44,6 +46,8 @@ namespace NTB.SenderService.Tests
                     //Отключаем ошибки, что поведение транзакций в InMemory отличается от реляционного
                     .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
+            
+            serviceCollection.AddScoped<TelegramSender>();
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
 

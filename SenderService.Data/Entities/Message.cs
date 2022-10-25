@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace NTB.SenderService.Data
 {
-	public partial class Message : BaseEntity
+	/// <summary>
+	/// Уведомление
+	/// </summary>
+	public partial class Message : BaseEntity // данные
 	{
 		/// <summary>
 		/// Ключ типа сообщения
@@ -26,14 +29,9 @@ namespace NTB.SenderService.Data
 		public String Text { get; set; }
 
 		/// <summary>
-		/// Тема сообщения
+		/// Признак, что текст представлен в формате Json
 		/// </summary>
-		public String Subject { get; set; }
-
-		/// <summary>
-		/// Вложения
-		/// </summary>
-		public String AttachesRef { get; set; }
+		public Boolean IsJson { get; set; }
 
 		/// <summary>
 		/// Ключ статуса
@@ -71,11 +69,12 @@ namespace NTB.SenderService.Data
 
 		public override string ToString()
 		{
-			return @$"	ID:{Id}
-	Type:{TypeId}
-	To:{Recipient}
-	Subject:{Subject}
-	{Text}";
+			return @$"{{
+ID:{Id}
+Type:{TypeId}
+To:{Recipient}
+{Text}
+}}";
 		}
 	}
 }

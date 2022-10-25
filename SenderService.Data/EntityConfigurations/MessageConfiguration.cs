@@ -20,10 +20,6 @@ namespace NTB.SenderService.Data.EntityConfigurations
 			builder.Property(t => t.Text)
 				.IsRequired();
 
-			builder.Property(t => t.Subject)
-				.HasMaxLength(255)
-				.IsRequired(false);
-
 			builder.Ignore(t => t.LastError);
 
 			builder.Property(e => e.Created)
