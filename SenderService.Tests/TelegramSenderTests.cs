@@ -22,7 +22,7 @@ namespace NTB.SenderService.Tests
 		{
 			TelegramSenderSettings telegramSettings = new TelegramSenderSettings()
 			{
-				Token = "5771418221:AAH2XLiARrnChTPS4KJvAvKO9Eh6450Lcx8",
+				Token = "telegram:token",
 				TestMode = false
 			};
 			IOptions<TelegramSenderSettings> options = Options.Create(telegramSettings);
