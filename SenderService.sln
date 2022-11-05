@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService.Data", "Sende
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderService.Tests", "SenderService.Tests\SenderService.Tests.csproj", "{EA8892C8-03C5-407E-8A46-58B4B4492553}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotService.TelegramBot", "..\BotService\BotService.TelegramBot\BotService.TelegramBot.csproj", "{F828AF03-AA2A-497D-A45D-46B01E68C781}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService.Telegram", "SenderService.Telegram\SenderService.Telegram.csproj", "{975D493A-DB55-476B-BD00-2217E86B5FEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +53,14 @@ Global
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|x64.ActiveCfg = Release|x64
 		{EA8892C8-03C5-407E-8A46-58B4B4492553}.Release|x64.Build.0 = Release|x64
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Debug|x64.Build.0 = Debug|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|x64.ActiveCfg = Release|Any CPU
-		{F828AF03-AA2A-497D-A45D-46B01E68C781}.Release|x64.Build.0 = Release|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Debug|x64.Build.0 = Debug|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{975D493A-DB55-476B-BD00-2217E86B5FEE}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

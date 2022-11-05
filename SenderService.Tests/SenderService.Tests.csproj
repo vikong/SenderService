@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BotService\BotService.TelegramBot\BotService.TelegramBot.csproj" />
     <ProjectReference Include="..\SenderService.Data\SenderService.Data.csproj" />
     <ProjectReference Include="..\SenderService.Services\SenderService.Services.csproj" />
+    <ProjectReference Include="..\SenderService.Telegram\SenderService.Telegram.csproj" />
     <ProjectReference Include="..\SenderService\SenderService.csproj" />
   </ItemGroup>
 

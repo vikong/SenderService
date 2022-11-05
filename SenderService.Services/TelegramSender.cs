@@ -4,13 +4,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
-
-using NTB.BotService.TelegramBot;
 using NTB.SenderService.Data;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
+using NTB.SenderService.TelegramBot;
 
 namespace NTB.SenderService
 {
