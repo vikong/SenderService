@@ -115,7 +115,7 @@ namespace NTB.SenderService.Tests
 		public async Task SendJsonMessage_ToTelegram_Succeed()
 		{
 			string json = @"{ 
-""Text"":""Новая задача:62680\nRe:**62679**ПИРАМИДА _БЭСТ-БЮРО"", 
+""Text"":""Новая задача:62680\nRe:**62679** ПИРАМИДА _БЭСТ-БЮРО"", 
 ""Buttons"":[ 
 	{ ""Type"":2, ""Text"":""Открыть"", ""Data"":""http://reportal.ntbroker.ru/itilium/itiledit.php?NUMINC=62680&MODE=1"" }, 
 	{ ""Type"":1, ""Text"":""Посмотреть"", ""Data"":""/62680"" } 

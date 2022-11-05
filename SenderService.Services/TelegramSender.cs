@@ -68,23 +68,34 @@ namespace NTB.SenderService
 			{
 				ChatId chat = new ChatId(chatId);
 
-				Telegram.Bot.Types.Message result = 
-					await _botClient.SendAsync(chatId, ToTelegramMessage(message));
-				
-				message.MessageId = $"{chatId}:{result.MessageId}";
-				message.StatusId = MessageStatusEnum.Delivered;
+				TelegramMessage msg = ToTelegramMessage(message);
+				if (msg != null)
+				{
+					Telegram.Bot.Types.Message result =
+						await _botClient.SendAsync(chatId, msg);
+
+					message.MessageId = $"{chatId}:{result.MessageId}";
+					message.StatusId = MessageStatusEnum.Delivered;
+				}
+				else
+				{
+					message.SetError(MessageErrorTypeEnum.Format,"Empty");
+				}
+			}
+			catch (JsonException ex)
+			{
+				message.SetError(MessageErrorTypeEnum.Format, $"Can't parse JSON: {ex.Message}");
 			}
 			catch (ApiRequestException ex)
 			{
-				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.ErrorCode}");
+				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.GetType()}:{ex.Message}:{ex.ErrorCode}");
 			}
 			catch (RequestException ex)
 			{
-				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.Message}:{ex.HttpStatusCode}");
+				message.SetError(MessageErrorTypeEnum.Request, $"{ex.GetType()}:{ex.Message}:{ex.HttpStatusCode}");
 			}
 
 			return message.StatusId != MessageStatusEnum.Error;
-
 		}
 
 		/// <summary>
@@ -102,24 +113,16 @@ namespace NTB.SenderService
 			
 			if (message.IsJson)
 			{
-				TelegramMessage result;
 				if (strInput.StartsWith("{") && strInput.EndsWith("}"))
 				{
-					try
-					{
-						result = JsonSerializer.Deserialize<TelegramMessage>(strInput);
-					}
-					catch (JsonException)
-					{
-						result = null;
-					}
+					return JsonSerializer.Deserialize<TelegramMessage>(strInput);
 				}
 				else
 				{
-					result = null;
+					throw new JsonException("Wrong JSON format");
 				}
-				return result;
 			}
+
 			return new TelegramMessage(message.Text.Trim());
 
 		}

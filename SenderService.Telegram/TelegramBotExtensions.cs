@@ -15,7 +15,10 @@ namespace NTB.SenderService.TelegramBot
 		public static string MdCharEncode(this string text)
 		{
 			return text.Replace("_", "\\_")
-				.Replace("*", "\\*");
+				.Replace("*", "\\*")
+				.Replace("[", "\\[")
+				.Replace("(", "\\(")
+				.Replace("`", "\\`");
 		}
 
 		public static async Task<Message> SendAsync(this ITelegramBotClient botClient, ChatId chatId, TelegramMessage message)

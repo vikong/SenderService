@@ -13,6 +13,16 @@
 		/// <summary>
 		/// Ошибка провайдера
 		/// </summary>
-		Provider = 2
+		Provider = 2,
+
+		/// <summary>
+		/// Ошибка форматирования
+		/// </summary>
+		Format = 3,
+
+		/// <summary>
+		/// Ошибка при запросе
+		/// </summary>
+		Request = 4,
 	}
 }

@@ -56,7 +56,7 @@ namespace NTB.SenderService
 				}
 				catch (Exception ex)
 				{
-					message.SetError(MessageErrorTypeEnum.Program, ex.Message);
+					message.SetError(MessageErrorTypeEnum.Program, $"{ex.GetType()}:{ex.Message}");
 				}
 
 				// обновляем статус
