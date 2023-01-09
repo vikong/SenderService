@@ -405,3 +405,6 @@ pnpm-debug.log*
 # Solution
 [L]logs*/
 
+# Settings
+/SenderService/appsettings.Development.json
+/SenderService/appsettings.json
