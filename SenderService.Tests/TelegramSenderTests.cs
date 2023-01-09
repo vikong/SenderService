@@ -2,13 +2,16 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTB.SenderService.Data;
+using System.Text.Json.Serialization;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using System.Linq;
 using NTB.SenderService.TelegramBot;
+using System;
+using System.Text.Json;
+using System.Diagnostics;
 
 namespace NTB.SenderService.Tests
 {
@@ -132,5 +135,18 @@ namespace NTB.SenderService.Tests
 
 		}
 
+		[TestMethod]
+		public void MyTestMethod()
+		{
+			try
+			{
+				throw new Exception("Some exception", new Exception("inner Exception"));
+			}
+			catch (Exception ex)
+			{
+				var err = ex.ToString();
+				Debug.WriteLine(err);
+			}
+		}
 	}
 }

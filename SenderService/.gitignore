@@ -405,3 +405,7 @@ pnpm-debug.log*
 # Solution
 [L]logs*/
 
+# Settings
+appsettings.Development.json
+appsettings.json
+
