@@ -12,25 +12,28 @@ using NTB.SenderService.TelegramBot;
 using System;
 using System.Text.Json;
 using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NTB.SenderService.Tests
 {
 	[TestClass]
 	public class TelegramSenderTests : AbstractTest
 	{
-		private readonly TelegramSender sender;
 		private readonly long ChatId = 900984646;
 
-		public TelegramSenderTests()
-		{
-			TelegramSenderSettings telegramSettings = new TelegramSenderSettings()
-			{
-				Token = "telegram:token",
-				TestMode = false
-			};
-			IOptions<TelegramSenderSettings> options = Options.Create(telegramSettings);
+		private TelegramSender CreateSender() 
+			=> ServiceProvider.GetRequiredService<TelegramSender>();
 
-			sender = new TelegramSender(options);
+		[TestMethod]
+		public void TestConfig()
+		{
+			//TelegramSenderSettings conf = serviceCollection.Get<TelegramSenderSettings>();
+			var opt = ServiceProvider.GetService<IOptions<TelegramSenderSettings>>();
+			Console.WriteLine(opt);
+			Console.WriteLine(opt.Value.Token);
+			
+
 		}
 
 		[TestMethod]
@@ -38,13 +41,15 @@ namespace NTB.SenderService.Tests
 		{
 			string text = "Вам задача 62557:\n<b>БРОКЕР ХЕЛЛМАНН</b>";
 			var keyboard = new InlineKeyboardMarkup(new[]
-{
-	new [] // first row
-    {
-		InlineKeyboardButton.WithUrl("Перейти",@"http://reportal.ntbroker.ru/itilium/itiledit.php?NUMINC=62557&MODE=1"),
-		InlineKeyboardButton.WithCallbackData("Показать"),
-	}
-});
+			{
+				new [] {
+					InlineKeyboardButton.WithUrl("Перейти",@"http://reportal.ntbroker.ru/itilium/itiledit.php?NUMINC=62557&MODE=1"),
+					InlineKeyboardButton.WithCallbackData("Показать"),
+				}
+			});
+			
+			var sender = CreateSender();
+
 			await sender.Bot.SendTextMessageAsync(ChatId, text,
 				parseMode: ParseMode.Html,
 				replyMarkup: keyboard,
@@ -58,6 +63,8 @@ namespace NTB.SenderService.Tests
 			{
 				Buttons = new TelegramButton[] { TelegramButton.Url("Ya", @"https://ya.ru/") }
 			};
+
+			var sender = CreateSender();
 
 			await sender.Bot.SendAsync(new ChatId(ChatId), message);
 		}
@@ -131,22 +138,27 @@ namespace NTB.SenderService.Tests
 				Text = json
 			});
 
+			var sender = CreateSender();
+
 			await sender.Bot.SendAsync(new ChatId(ChatId), message);
 
 		}
 
 		[TestMethod]
-		public void MyTestMethod()
+		public async Task SendJsonFile_ToTelegram_Succeed()
 		{
-			try
+			string json = System.IO.File.ReadAllText(@"D:\temp\message.json");
+
+			var message = TelegramSender.ToTelegramMessage(new Data.Message()
 			{
-				throw new Exception("Some exception", new Exception("inner Exception"));
-			}
-			catch (Exception ex)
-			{
-				var err = ex.ToString();
-				Debug.WriteLine(err);
-			}
+				Id = 1,
+				IsJson = true,
+				Text = json
+			});
+
+			var sender = CreateSender();
+
+			await sender.Bot.SendAsync(new ChatId(ChatId), message);
 		}
 	}
 }

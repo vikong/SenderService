@@ -24,21 +24,28 @@ namespace NTB.SenderService.Tests
         [TestInitialize]
         public void TestInitialization()
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.Development.json", optional: false)
+                .Build();
+
+            /*
             var host = Host
                 .CreateDefaultBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                    config.AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: false);
                 })
                 .ConfigureServices((hostContext, services)=> {
                 })
                 .Build();
+            */
 
             serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
-            //serviceCollection.AddSingleton<TelegramSender>();
-            //serviceCollection.RegisterOwnLogic(host.Services.GetService<IConfiguration>());
-            //serviceCollection.AddHttpContextAccessor();
+            serviceCollection.AddOptions();
+
+            serviceCollection.Configure<TelegramSenderSettings>(config.GetSection("TelegramSenderSettings"));
+
             serviceCollection.AddDbContext<DatabaseContext>(options =>
             {
                 options
