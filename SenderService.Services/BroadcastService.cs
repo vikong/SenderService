@@ -22,9 +22,14 @@ namespace NTB.SenderService
 
 		public async Task SendAsync(ISender sender)
 		{
-			// получаем неотправленные
+			// получаем неотправленные. Отправляем только за последние сутки
+			DateTime obsolescenceTime =  DateTime.Now.AddDays(-1);
 			Message[] queuedMessages = await _dbContext.Messages
-				.Where(m => m.TypeId==sender.MessageType && m.StatusId == MessageStatusEnum.Queued)
+				.Where(m => 
+					m.TypeId==sender.MessageType 
+					&& (m.StatusId == MessageStatusEnum.Queued || m.StatusId == MessageStatusEnum.Warning)
+					&& m.Created>= obsolescenceTime
+					)
 				.ToArrayAsync();
 			if (queuedMessages.Count() == 0)
 			{
@@ -56,7 +61,7 @@ namespace NTB.SenderService
 				}
 				catch (Exception ex)
 				{
-					message.SetError(MessageErrorTypeEnum.Program, $"{ex.GetType()}:{ex.Message}");
+					message.RaiseError(MessageErrorTypeEnum.Program, $"{ex.GetType()}:{ex.Message}");
 				}
 
 				// обновляем статус

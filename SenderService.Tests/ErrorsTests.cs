@@ -29,7 +29,7 @@ namespace NTB.SenderService.Tests
 			await ctx.SaveChangesAsync();
 			var msgId = msg.Id;
 			var msgWithError = messages.FirstOrDefault(m => m.Id == msgId);
-			var err = msgWithError.SetError(MessageErrorTypeEnum.Program, "test error");
+			var err = msgWithError.RaiseError(MessageErrorTypeEnum.Program, "test error");
 			await ctx.SaveChangesAsync();
 			var savedErr = ctx.MessageErrors.FirstOrDefault(t => t.MessageId == msgId);
 
@@ -53,7 +53,7 @@ namespace NTB.SenderService.Tests
 
 			var msgId = msg.Id;
 			var errorText = "this is test error";
-			msg.SetError(MessageErrorTypeEnum.Program, errorText);
+			msg.RaiseError(MessageErrorTypeEnum.Program, errorText);
 			await ctx.SaveChangesAsync();
 			var msgWithError = messages.FirstOrDefault(m => m.Id == msgId);
 			var savedErr = ctx.MessageErrors.FirstOrDefault(t => t.MessageId == msgId);
@@ -74,7 +74,7 @@ namespace NTB.SenderService.Tests
 				TypeId = MessageTypeEnum.Telegram
 			};
 			var errorText = "this is test error";
-			msg.SetError( MessageErrorTypeEnum.Program, errorText);
+			msg.RaiseError( MessageErrorTypeEnum.Program, errorText);
 			messages.Add(msg);
 			await ctx.SaveChangesAsync();
 			var msgId = msg.Id;

@@ -24,5 +24,10 @@
 		/// Ошибка при запросе
 		/// </summary>
 		Request = 4,
+
+		/// <summary>
+		/// Ошибка сети (System.Net.Http.HttpRequestException)
+		/// </summary>
+		Network = 5
 	}
 }

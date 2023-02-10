@@ -60,7 +60,7 @@ namespace NTB.SenderService
 			Int64 chatId = await GetChatId(message);
 			if (chatId==0)
 			{
-				message.SetError(MessageErrorTypeEnum.Provider, $"Wrong recipient's ChatId");
+				message.RaiseError(MessageErrorTypeEnum.Provider, $"Wrong recipient's ChatId");
 				return false;
 			}
 
@@ -79,20 +79,28 @@ namespace NTB.SenderService
 				}
 				else
 				{
-					message.SetError(MessageErrorTypeEnum.Format,"Empty");
+					message.RaiseError(MessageErrorTypeEnum.Format,"Empty");
 				}
 			}
 			catch (JsonException ex)
 			{
-				message.SetError(MessageErrorTypeEnum.Format, $"Can't parse JSON: {ex.Message}");
+				message.RaiseError(MessageErrorTypeEnum.Format, $"Can't parse JSON: {ex.Message}");
 			}
 			catch (ApiRequestException ex)
 			{
-				message.SetError(MessageErrorTypeEnum.Provider, $"{ex.GetType()}:{ex.Message}:{ex.ErrorCode}");
+				message.RaiseError(MessageErrorTypeEnum.Provider, $"{ex.GetType()}:{ex.Message}:{ex.ErrorCode}");
 			}
 			catch (RequestException ex)
 			{
-				message.SetError(MessageErrorTypeEnum.Request, $"{ex.GetType()}:{ex.Message}:{ex.HttpStatusCode}");
+				if (ex.InnerException is System.Net.Http.HttpRequestException)
+				{
+					Exception inner = ex.InnerException;
+					message.AppendError(MessageErrorTypeEnum.Network, $"{ex.GetType()}:{ex.Message}:{ex.HttpStatusCode}\r\nInner:{inner.GetType()}:{inner.Message}\r\n{inner?.InnerException.GetType()}:{inner?.InnerException.Message}");
+				}
+				else
+				{
+					message.RaiseError(MessageErrorTypeEnum.Request, $"{ex.GetType()}:{ex.Message}:{ex.HttpStatusCode}");
+				}
 			}
 
 			return message.StatusId != MessageStatusEnum.Error;
